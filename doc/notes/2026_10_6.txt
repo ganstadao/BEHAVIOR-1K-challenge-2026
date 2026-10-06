@@ -1,0 +1,18 @@
+
+[todo]
+3. 接下来应该详细理解不同policy的内部原理，以及如何improve（可以先尝试一些较为直觉的改进）（tamp）
+
+3. 
+[debug] 尝试https://github.com/mli0603/openpi-comet的checkpoint（也是基于pi05的）
+
+        [others] disk quota exceeded
+            [debug] move dataset & create soft link
+                    # 在shared空间创建目录
+                    mkdir -p ~/LINJ0121/BEHAVIOR-1K
+
+                    # 移动datasets
+                    mv ./datasets ~/LINJ0121/BEHAVIOR-1K/
+                    ln -s ~/LINJ0121/shared/BEHAVIOR-1K/datasets ./datasets
+
+
+        

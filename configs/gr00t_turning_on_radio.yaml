@@ -1,0 +1,42 @@
+# GR00T 评估配置模板
+# 用于 turning_on_radio 任务
+
+# Policy 配置
+policy:
+  type: gr00t
+
+  # GR00T 特定配置
+  groot_dir: ~/LINJ0121/Isaac-GR00T
+  checkpoint: ~/LINJ0121/checkpoint/turning_on_radio_GR00T-checkpoint-150000
+  modality_config: examples/b1k/r1pro.py
+  embodiment_tag: NEW_EMBODIMENT
+  hf_token: "your_hf_token"  # 可选
+
+  # 服务器配置
+  port: 8000
+  gpu_id: 0
+  startup_timeout: 300  # 秒
+
+# BEHAVIOR-1K 配置
+behavior:
+  path: ~/project/BEHAVIOR-1K
+  python_path: ~/.conda/envs/behavior/bin/python
+
+# 任务配置
+task:
+  name: turning_on_radio
+  max_steps: 500
+  write_video: true
+  env_wrapper: omnigibson.eval.wrappers.RGBDFullResWrapper
+
+# 日志配置
+logging:
+  detailed_logging: true  # 使用详细日志包装器
+  record_policy: false    # GR00T 不支持 record
+  policy_log_level: INFO
+  eval_log_level: INFO
+
+# 输出配置
+output:
+  base_dir: ./eval_logs
+  run_name: default

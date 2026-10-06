@@ -1,0 +1,35 @@
+# Pi0.5 评估配置 - 不限制步数版本
+# 适合完整任务评估
+
+policy:
+  type: pi0.5
+  openpi_dir: ~/LINJ0121/openpi
+  checkpoint: ~/LINJ0121/checkpoint/pi05_turn_on_the_radio
+  repo_id: turning_on_radio
+  policy_config: pi05_b1k
+  control_mode: receding_horizon
+  action_horizon: 16
+  port: 8000
+  gpu_id: 0
+  mem_fraction: 0.85
+  startup_timeout: 300
+
+behavior:
+  path: ~/project/BEHAVIOR-1K
+  python_path: ~/.conda/envs/behavior/bin/python
+
+task:
+  name: turning_on_radio
+  max_steps: null  # null 或 0 表示不限制步数
+  write_video: true
+  env_wrapper: omnigibson.eval.wrappers.RGBDFullResWrapper
+
+logging:
+  detailed_logging: true
+  record_policy: true
+  policy_log_level: DEBUG
+  eval_log_level: INFO
+
+output:
+  base_dir: ./eval_logs
+  run_name: unlimited

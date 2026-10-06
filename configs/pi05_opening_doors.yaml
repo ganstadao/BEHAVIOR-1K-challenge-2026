@@ -1,0 +1,74 @@
+# 配置文件模板
+# 复制此文件并根据你的需求修改
+
+# ============================================================================
+# Policy 配置
+# ============================================================================
+policy:
+  # Policy 类型: pi0.5 或 gr00t
+  type: pi0.5
+
+  # ---------- Pi0.5 特定配置 (type=pi0.5 时使用) ----------
+  openpi_dir: ~/LINJ0121/openpi                        # OpenPI 安装目录
+  checkpoint: ~/LINJ0121/checkpoint/pi05_turn_on_the_radio   # 模型 checkpoint 路径
+  repo_id: opening_doors                                   # Hugging Face repo ID
+  policy_config: pi05_b1k                              # Policy 配置名称
+  control_mode: receding_horizon                       # 控制模式
+  action_horizon: 16                                   # Action horizon
+
+  # ---------- GR00T 特定配置 (type=gr00t 时使用) ----------
+  # groot_dir: ~/LINJ0121/Isaac-GR00T
+  # checkpoint: ~/LINJ0121/checkpoint/groot_checkpoint
+  # modality_config: examples/b1k/r1pro.py
+  # embodiment_tag: NEW_EMBODIMENT
+  # hf_token: your_hf_token  # 可选
+
+  # ---------- 服务器配置 (所有 policy 通用) ----------
+  port: 8000              # Policy server 端口
+  gpu_id: 0               # 使用的 GPU ID
+  mem_fraction: 0.85      # GPU 内存占用比例 (仅 pi0.5)
+  startup_timeout: 300    # 服务器启动超时时间(秒)
+
+# ============================================================================
+# BEHAVIOR-1K 配置
+# ============================================================================
+behavior:
+  path: ~/project/BEHAVIOR-1K                     # BEHAVIOR-1K 路径
+  python_path: ~/.conda/envs/behavior/bin/python  # Behavior conda 环境的 Python
+
+# ============================================================================
+# 任务配置
+# ============================================================================
+task:
+  name: opening_doors                                 # 任务名称
+  # max_steps: 500                                         # 最大步数 (可选)
+  write_video: true                                      # 是否生成视频
+  env_wrapper: omnigibson.eval.wrappers.RGBDFullResWrapper  # 环境包装器 (可选)
+
+# ============================================================================
+# 日志配置
+# ============================================================================
+logging:
+  detailed_logging: true   # 是否使用详细日志 (使用 run_eval_with_logging.py)
+  record_policy: true      # 是否记录 policy 动作 (仅 pi0.5 支持 --record)
+  policy_log_level: DEBUG  # Policy server 日志级别: DEBUG, INFO, WARNING, ERROR
+  eval_log_level: INFO     # OmniGibson 评估日志级别
+
+# ============================================================================
+# 输出配置
+# ============================================================================
+output:
+  base_dir: ./eval_logs  # 输出根目录
+  run_name: default      # 本次运行的名称 (用于区分不同实验)
+
+  # 最终输出路径结构:
+  # {base_dir}/{policy_type}/{task_name}/{timestamp}_{run_name}/
+  #   ├── config.yaml              # 本次运行的完整配置
+  #   ├── summary.yaml             # 运行总结
+  #   ├── logs/
+  #   │   ├── policy_server.log    # Policy server 日志
+  #   │   └── omnigibson_eval.log  # OmniGibson 评估日志
+  #   ├── json/
+  #   │   └── *.json               # 评估结果 JSON
+  #   └── videos/
+  #       └── *.mp4                # 评估视频

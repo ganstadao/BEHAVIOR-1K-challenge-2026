@@ -1,10 +1,10 @@
 model: r1pro
-name: robot_r1
+name: robot
 eval:
   camera_sensor_names:
-    left_wrist: robot_r1:left_realsense_link:Camera:0
-    right_wrist: robot_r1:right_realsense_link:Camera:0
-    head: robot_r1:zed_link:Camera:0
+    left_wrist: robot:left_realsense_link:Camera:0
+    right_wrist: robot:right_realsense_link:Camera:0
+    head: robot:zed_link:Camera:0
 action_normalize: false
 self_collisions: true
 obs_modalities:

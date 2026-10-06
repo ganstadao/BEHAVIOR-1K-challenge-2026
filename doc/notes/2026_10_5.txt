@@ -1,0 +1,43 @@
+gr00t fail turning_on_radio task
+try pi05_b1k checkpoint
+
+[debug] 无法启动server debug，download checkpoint并设置sh脚本 test/run_pi0_5_eval.sh
+
+[debug] 碰到问题，好像server就启动失败了，虽然log中最终成功激活simulator
+        成功跑出来,虽然qscore还是0，失败了，但是从视频看导航成功了，机械手的前半段也成功了
+        整理一下，需要在robot config中把robot name设置为robot而不是robot_r1,和pi0.5的websocket使用
+
+[todo]
+1. 要读一下这个websocket的代码，如何进行连接配对
+2. 建立一个完整的自定义评估流程，便于eval
+
+1.
+[debug] 在pi0.5中，websocket需要运行scripts/b1k/serve_b1k.py，其中接受参数传入如下：
+    robot
+        arg b1k/R1Pro传入，由B1KPolicyWrapper封装到policy中
+        与task类似会在注册宏变量ROBOT_REGISTRY dict中找到对应的robotconfig，从而创建实体，机器人注册参数如下：
+            name: Robot identifier in format 'bucket/robot_type' (e.g., 'i3l/A1')
+            config: RobotConfig instance to register
+        这也是为什么报错keyerror：robotname不匹配的原因,因为evaluater中不传入robotcfg会使用默认的DEFAULT_ROBOT_CONFIG_PATH也就是：
+            DEFAULT_ROBOT_CONFIG_PATH = os.path.join(os.path.dirname(__file__), "r1pro.yaml")
+            而官方给的这个name是robot_r1和OpenPi中的 src/openpi/configs/robots/b1k.py 定义的RobotConfig R1Pro name robot不一样
+            错误：Policy server 在 eval_b1k_wrapper.py:123 行尝试访问 input_obs["robot::proprio"] 时找不到该键，抛出 KeyError
+            将OmniGibson/omnigibson/eval/r1pro.yaml中的name及相关leftrighthead改为robot即可成功匹配
+    
+    task: includes task_bucket & task_name，通过注册的宏变量TASK_REGISTRY找到prompt作为输入
+        {'b1k': {'turning_on_radio': "Turn on the radio receiver that's on the table in the living room."}}
+    
+    policy...
+具体看 doc/policy/Websocket_Policy Server_PI05.md
+
+[others] 环境问题：为什么在openpi工作区下可以自动pylance识别以及settings.json设置？
+    vscode python 扩展会自动在工作区根目录下查找虚拟环境（.venv、venv 等），但不会递归查找子目录
+
+[summary] 理解了websocket的通信原理以及pi0.5的policy中各个参数如何传递，policy等接口如何运作（因为其效果比gr00t好太多）
+
+
+2. 尝试改进评估接口，优化eval输出目录
+[debug]
+初步测试可以完整输出log和policy_records, 但辅助评估工具仍需进一步改进
+
+

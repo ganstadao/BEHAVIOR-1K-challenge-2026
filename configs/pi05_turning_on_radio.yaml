@@ -1,0 +1,44 @@
+# Pi0.5 评估配置模板
+# 用于 turning_on_radio 任务
+
+# Policy 配置
+policy:
+  type: pi0.5  # 或 gr00t
+
+  # Pi0.5 特定配置
+  openpi_dir: ~/LINJ0121/openpi
+  checkpoint: ~/LINJ0121/checkpoint/pi05_turn_on_the_radio
+  repo_id: turning_on_radio
+  policy_config: pi05_b1k
+  control_mode: receding_horizon
+  action_horizon: 16
+
+  # 服务器配置
+  port: 8000
+  gpu_id: 0
+  mem_fraction: 0.85
+  startup_timeout: 300  # 秒
+
+# BEHAVIOR-1K 配置
+behavior:
+  path: ~/project/BEHAVIOR-1K
+  python_path: ~/.conda/envs/behavior/bin/python
+
+# 任务配置
+task:
+  name: turning_on_radio
+  max_steps: 500
+  write_video: true
+  env_wrapper: omnigibson.eval.wrappers.RGBDFullResWrapper
+
+# 日志配置
+logging:
+  detailed_logging: true  # 使用详细日志包装器
+  record_policy: true     # 使用 --record 记录 policy 动作
+  policy_log_level: DEBUG  # OPENPI_LOG_LEVEL
+  eval_log_level: INFO     # OmniGibson 评估日志级别
+
+# 输出配置
+output:
+  base_dir: ./eval_logs
+  run_name: default  # 可通过命令行 --run-name 覆盖

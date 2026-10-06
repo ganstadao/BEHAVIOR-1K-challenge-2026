@@ -1,11 +1,21 @@
-gha-creds-*.json
-/site
-.vscode
-.DS_Store
-
-# training
-outputs/
-/*.ipynb
-
+# Python
 __pycache__/
-.codex
+*.pyc
+.venv/
+
+# 大文件（checkpoint、数据、日志）
+*.ckpt
+*.pt
+*.pth
+*.safetensors
+outputs/
+eval_logs/
+*.mp4
+*.mp4
+checkpoint/
+checkpoints/
+
+# 环境
+.env
+*.log
+logs/
