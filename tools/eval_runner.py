@@ -146,7 +146,8 @@ class EvalRunner:
         server_log = self.output_dir / "logs" / "policy_server.log"
 
         # 构建命令
-        if policy_type == 'pi0.5':
+        if policy_type == 'pi0.5' or 'pi0.5' in policy_type:
+            # 支持 pi0.5 和 pi0.5-comet
             cmd = self._build_pi05_server_cmd(policy_config, server_log)
         elif policy_type == 'gr00t':
             cmd = self._build_groot_server_cmd(policy_config, server_log)
@@ -179,21 +180,44 @@ class EvalRunner:
         python = openpi_dir / ".venv" / "bin" / "python"
 
         task_name = self.config['task']['name']
+        policy_type = self.config['policy']['type']
+
+        # 检查是否是 openpi-comet
+        is_comet = 'comet' in policy_type.lower() or 'comet' in str(openpi_dir).lower()
 
         cmd = [
             str(python),
-            str(openpi_dir / "scripts" / "b1k" / "serve_b1k.py"),
-            "--robot", "b1k/R1Pro",
-            "--task", f"b1k/{task_name}",
-            "--repo-id", policy_config.get('repo_id', task_name),
-            "--policy.config", policy_config.get('policy_config', 'pi05_b1k'),
-            "--policy.dir", str(Path(policy_config['checkpoint']).expanduser()),
-            "--control_mode", policy_config.get('control_mode', 'receding_horizon'),
-            "--action_horizon", str(policy_config.get('action_horizon', 16)),
-            "--port", str(policy_config['port']),
+            str(openpi_dir / "scripts" / "b1k" / "serve_b1k.py"),  # comet 也用这个路径
         ]
 
-        # 添加 record 参数
+        if is_comet:
+            # OpenPI-Comet 参数（更简单）
+            cmd.extend([
+                "policy:checkpoint",
+                "--policy.config", policy_config.get('policy_config', 'pi05_b1k-base'),
+                "--policy.dir", str(Path(policy_config['checkpoint']).expanduser()),
+                "--port", str(policy_config['port']),
+            ])
+
+            # Comet 特有参数
+            if 'dataset_root' in policy_config:
+                cmd.extend(["--dataset_root", policy_config['dataset_root']])
+            if 'task_name' in policy_config:
+                cmd.extend(["--task_name", policy_config['task_name']])
+        else:
+            # 原版 OpenPI 参数
+            cmd.extend([
+                "--robot", "b1k/R1Pro",
+                "--task", f"b1k/{task_name}",
+                "--repo-id", policy_config.get('repo_id', task_name),
+                "--policy.config", policy_config.get('policy_config', 'pi05_b1k'),
+                "--policy.dir", str(Path(policy_config['checkpoint']).expanduser()),
+                "--control_mode", policy_config.get('control_mode', 'receding_horizon'),
+                "--action_horizon", str(policy_config.get('action_horizon', 16)),
+                "--port", str(policy_config['port']),
+            ])
+
+        # 添加 record 参数（两者都支持）
         if self.config['logging'].get('record_policy', False):
             cmd.append("--record")
 

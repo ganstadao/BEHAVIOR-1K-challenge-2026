@@ -7,12 +7,9 @@
 
         [others] disk quota exceeded
             [debug] move dataset & create soft link
-                    # 在shared空间创建目录
+                    bash:
                     mkdir -p ~/LINJ0121/BEHAVIOR-1K
-
-                    # 移动datasets
                     mv ./datasets ~/LINJ0121/BEHAVIOR-1K/
                     ln -s ~/LINJ0121/shared/BEHAVIOR-1K/datasets ./datasets
 
-
-        
+tom silver

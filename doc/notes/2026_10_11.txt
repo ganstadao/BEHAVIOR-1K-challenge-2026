@@ -1,0 +1,23 @@
+[todo]
+1. 尝试将tamp应用于behavior challenge，主要分为以下几步：
+    a. 如何处理predicates pddl translate
+    b. subgoal的planner
+    c. low-level controller
+
+    search-then-sample将pddl语言规定了状态空间、动作和目标，统一为node结构，包含了符号状态、skeleton、constraints
+    包含高层符号搜索（也就是planner）以及底层连续采样（也就是回溯完成subgoal）
+    高层处理离散，用的是A*搜索找到skeleton，这里skeleton是subgoal的List[state/action]（比如Pick(obj1, ?xbase1, ?ybase1, ?zbase1, ?xgrip1, ?ygrip1, ?zgrip1)）
+    得到完整的skeleton后传递给底层采样器plan = self._sample_continuous_values(env, state, skeleton, constraints, lits_sequence, rng)
+    低层处理连续，连续采样用Sampler为skeleton中每个action/state的连续参数赋值，也是通过搜索算法+回溯得到成功的节点路径
+
+
+    问题：
+    bddl和pddl有啥区别，以及到behavior中，pddl/bddl如何翻译，如何设计node和skeleton？
+    符号规划的局限性如何处理
+    llm应该能有用，如何应用于subgoal的生成？
+    再到低层，如何进行sampler的设计？
+    如何统一到policy接口？
+
+    [todo]
+    a. 先得确定概念和数据结构，bddl语言以及谓词和动作空间的翻译转化，以便确定高低层如何应用
+    b. 

@@ -1,0 +1,39 @@
+# OpenPI-Comet 评估配置
+# 使用 Team Comet 的 pt50 checkpoint
+
+policy:
+  type: pi0.5-comet  # 标识使用 comet 版本
+
+  # OpenPI-Comet 特定配置
+  openpi_dir: ~/LINJ0121/openpi-comet  # 使用 comet 的项目目录
+  checkpoint: ~/LINJ0121/checkpoint/pi05-comet-pt50/pi05-b1kpt50-cs32  # pt50 checkpoint
+
+  # Comet 特有参数
+  dataset_root: /scr/behavior/2025-challenge-demos  # 数据集路径（comet 需要）
+  task_name: turning_on_radio  # 任务名称（comet 使用）
+
+  # 通用参数
+  port: 8000
+  gpu_id: 0
+  mem_fraction: 0.85
+  startup_timeout: 300
+
+behavior:
+  path: ~/project/BEHAVIOR-1K
+  python_path: ~/.conda/envs/behavior/bin/python
+
+task:
+  name: turning_on_radio
+  max_steps: null  # 不限制步数
+  write_video: true
+  env_wrapper: omnigibson.eval.wrappers.RGBDFullResWrapper
+
+logging:
+  detailed_logging: true
+  record_policy: true  # comet 支持 record
+  policy_log_level: DEBUG
+  eval_log_level: INFO
+
+output:
+  base_dir: ./eval_logs
+  run_name: comet_pt50
