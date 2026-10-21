@@ -1,0 +1,11 @@
+{
+  "instance_id": 301,
+  "task_name": "turning_on_radio",
+  "success": false,
+  "num_steps": 400,
+  "num_subgoals": 2,
+  "num_successful_subgoals": 0,
+  "subgoal_results": [],
+  "goal_status": {},
+  "error_message": "No result from executor"
+}

@@ -1,0 +1,31 @@
+{
+    // VSCode调试配置 - BEHAVIOR-1K项目
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: remote TC2N01 debug",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "10.128.10.31",
+                "port": 1234
+            }
+        },
+        {
+            "name": "Python: remote sbatch debug",
+            "type": "debugpy",
+            "request": "attach",
+            "connect": {
+                "host": "10.128.10.31",
+                "port": 1234
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "/home/msai/linj0121/project/BEHAVIOR-1K"
+                }
+            ],
+            "justMyCode": false
+        }
+    ]
+}

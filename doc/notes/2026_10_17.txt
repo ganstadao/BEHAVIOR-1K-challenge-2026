@@ -1,0 +1,17 @@
+[summary]   梳理一下，现在理解了bddl的dataflow 和 bddl和pddl的区别——教授为什么说要转化为pddl
+            
+            所以转化为pddl在目前阶段确实是有必要的，关键是如何转换，behavior又提供了哪些预定义的东西并且怎么用
+            behavior提供了sampler是怎么用的
+
+            search then sample planner 字面意思，A* search skeleton， 采样器回溯搜索
+            behavior challenge为每个predicate提供了sampler
+            
+[todo]  那么既然遵循tamp，先写一个简单的tamp（仅针对turn on radio task，并人为固定好skeleton：navigate-pick-press类似），
+            手动定义domain（包括几个subgoal，以及从omnigibson中提取出pddl需要的preconditions等等）
+            然后用omnigibson现有的sampler作为低层连续动作参数规划，作为policy，生成eval完整视频
+
+[debug] config需要再熟悉一下，这是啥相关？scene？都有
+        不同机器人的CuRobo启用是啥玩意，需要学习一下robot相关的内容
+        原语和sampler咋用，官方给的运动规划实现底层如何实现，和CuRobo有关应该
+
+[todo]  完全搞明白tamp_test的原理
