@@ -1,0 +1,25 @@
+# Configuration for turning_on_radio task
+
+task:
+  name: turning_on_radio
+  activity_definition_id: 0
+  activity_instance_id: 0
+  scene_model: house_double_floor_lower
+
+evaluation:
+  instances: [301, 302, 303]  # Test instances
+  max_steps: NULL
+  record_video: true
+
+planner:
+  type: fixed_skeleton
+  # Skeleton is hardcoded in FixedSkeletonPlanner
+
+primitives:
+  use_curobo: true
+  visual_perception: false
+
+output:
+  results_dir: results
+  video_dir: results/videos
+  logs_dir: results/logs

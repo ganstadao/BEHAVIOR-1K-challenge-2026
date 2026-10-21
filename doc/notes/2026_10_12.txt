@@ -1,0 +1,33 @@
+[debug] 继续调试bddl，理解task的整个bddl dataflow
+        在test_bddl时遇到keyerror:online_object_sampling,缺少该字段，补上后false值还是报错
+        什么叫在线对象采样？应该就是二阶段bddlfile已经加载与解析好了，需要具体对象的创建与编译了，这里需要sampler来采样，以分配满足条件的object
+        解决：
+            在创建环境的时候env_base会进行load scene, robots and task
+            task需要和scene匹配 /home/msai/linj0121/project/BEHAVIOR-1K/datasets/2026-challenge-task-instances/scenes
+            turning_on_radio 任务只存在于 house_double_floor_lower 场景，配置如test_bddl.py中所示
+            输出如下：
+                环境创建完成！
+                环境类型: <class 'omnigibson.envs.env_base.Environment'>
+                场景: <omnigibson.scenes.interactive_traversable_scene.InteractiveTraversableScene object at 0x15426c90d190>
+                任务: <omnigibson.tasks.behavior_task.BehaviorTask object at 0x15424e725b10>
+
+                    object_scope 类型: <class 'dict'>
+                    object_scope 内容预览: ['agent.n.01_1', 'floor.n.01_1', 'radio_receiver.n.01_1', 'table.n.02_1']
+
+                    _base_conditions 类型: <class 'bddl.activity.Conditions'>
+                    _base_conditions 内容预览: <bddl.activity.Conditions object at 0x154265d8e610>
+
+                    _base_inroom_assignments 类型: <class 'dict'>
+                    _base_inroom_assignments 内容预览: {'table.n.02_1': 'living_room', 'floor.n.01_1': 'living_room'}
+
+                    object_instance_to_category 类型: <class 'dict'>
+                    object_instance_to_category 内容预览: {'radio_receiver.n.01_1': 'radio_receiver.n.01', 'table.n.02_1': 'table.n.02', 'floor.n.01_1': 'floor.n.01', 'agent.n.01_1': 'agent.n.01'}
+   
+[todo]  解决slurm集群debug的问题
+        
+[debug] 详情见launch.json的配置，两个configuration分别对应srun连接到计算节点的情况和sbatch的情况
+        sbatch需要类似slurm_debug_test.sh的脚本文件
+
+
+[todo]  现在知道了bddl的整体数据流，转化到实例task中，后续就是如何与policy接口对接的问题了，具体到tamp也就是和planner的交互
+        先看看论文吧
