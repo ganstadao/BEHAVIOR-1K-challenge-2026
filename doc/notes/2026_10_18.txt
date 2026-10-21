@@ -1,4 +1,0 @@
-[todo]  完全搞懂tamp_test
-
-[todo]  感觉这个机器人的使用完全不会啊
-        完成任意场景+机器人的模拟+bddl file+tro state的配置，应用随机动作并输出视频

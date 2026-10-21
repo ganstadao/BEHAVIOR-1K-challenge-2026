@@ -1,9 +1,0 @@
-[todo]  继续看bddl_dataflow
-        谓词有评估函数（到state的映射）
-        condition会被编译成表达式树
-        task planning 会生成subgoals，如果用bddl，就是满足subgoals的predicate这倒没问题，表达式树带有evaluate方法
-        那如何生成subgoal的predicate呢，一般是用搜索方法，也就是节点到节点
-        如果节点图已经提供，可以搜索出成功路径，关键是节点图到底在哪
-            首先state是确定的，是否意味着behavior给定了predicate？所以现在predicate的判断是没问题了
-            关键是状态的转化，action是如何定义的
-        action primitives在omnigibson中有实现
