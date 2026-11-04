@@ -1,4 +1,0 @@
-[summary]   掌握了robot和scene的使用，并尝试在evaluator中接入video writer
-            
-[todo]  测试完video writer后接入tamp查看tamp效果
-        看论文，尝试输出translate的pddl文件
